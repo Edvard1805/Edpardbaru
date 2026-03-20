@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 24th Birthday ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose: #e8a0a0;
+      --blush: #f7d6d6;
+      --deep: #c0646e;
+      --cream: #fff5f5;
+      --text: #5a2d35;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── PETAL PARTICLES ── */
+    .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .petal {
+      position: absolute;
+      top: -40px;
+      font-size: 1.4em;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: .8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #f9c8cc 0%, #fde8e8 50%, #fdf0f0 100%);
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .hero-tag {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      letter-spacing: .35em;
+      font-size: .75em;
+      text-transform: uppercase;
+      color: var(--deep);
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp .8s .2s forwards;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8em, 8vw, 5.5em);
+      line-height: 1.1;
+      color: var(--deep);
+      opacity: 0;
+      animation: fadeUp .9s .4s forwards;
+    }
+    .hero h1 span { font-style: italic; color: #b5474f; }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1em, 3vw, 1.6em);
+      font-style: italic;
+      color: var(--deep);
+      margin-top: 14px;
+      opacity: 0;
+      animation: fadeUp .9s .6s forwards;
+    }
+    .heart-divider {
+      margin: 30px auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp .9s .8s forwards;
+    }
+    .heart-divider hr { width: 80px; border: none; border-top: 1px solid var(--rose); }
+    .scroll-hint {
+      margin-top: 50px;
+      font-size: .75em;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--rose);
+      opacity: 0;
+      animation: fadeUp .9s 1.2s forwards, bounce 2s 2.2s infinite;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+
+    /* ── MUSIC PLAYER ── */
+    .music-bar {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--blush);
+      border-radius: 50px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(200,100,110,.15);
+      font-size: .82em;
+      color: var(--text);
+      max-width: calc(100vw - 36px);
+    }
+    .music-bar button {
+      background: var(--deep);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, transform .15s;
+      flex-shrink: 0;
+    }
+    .music-bar button:hover { background: #b5474f; transform: scale(1.08); }
+    .music-bar button.sm {
+      width: 28px;
+      height: 28px;
+      font-size: .8em;
+      background: var(--blush);
+      color: var(--deep);
+    }
+    .music-bar button.sm:hover { background: var(--rose); color: #fff; transform: scale(1.08); }
+    .music-bar .track-info { display: flex; flex-direction: column; min-width: 0; }
+    .music-bar .track-name {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 150px;
+      text-overflow: ellipsis;
+      color: var(--deep);
+    }
+    .music-bar .music-label {
+      font-size: .7em;
+      color: var(--rose);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .music-bar .track-counter {
+      font-size: .68em;
+      color: var(--rose);
+      white-space: nowrap;
+    }
+    .eq {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 18px;
+    }
+    .eq span {
+      width: 3px;
+      background: var(--deep);
+      border-radius: 2px;
+      animation: eq 1s ease-in-out infinite alternate;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .eq.playing span { opacity: 1; }
+    .eq span:nth-child(1) { height: 8px;  animation-delay: 0s; }
+    .eq span:nth-child(2) { height: 14px; animation-delay: .2s; }
+    .eq span:nth-child(3) { height: 6px;  animation-delay: .4s; }
+    .eq span:nth-child(4) { height: 12px; animation-delay: .1s; }
+    @keyframes eq {
+      from { transform: scaleY(.4); }
+      to   { transform: scaleY(1); }
+    }
+
+    /* ── GALLERY SECTION ── */
+    .gallery-section {
+      position: relative;
+      z-index: 1;
+      padding: 80px 20px;
+      background: #fff;
+    }
+    .section-label {
+      text-align: center;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      font-size: .75em;
+      color: var(--rose);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8em, 5vw, 2.8em);
+      color: var(--deep);
+      margin-bottom: 50px;
+    }
+    .slideshow-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .slideshow {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--blush);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(192,100,110,.18);
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .6s ease;
+      pointer-events: none;
+    }
+    .slide.active { opacity: 1; pointer-events: auto; }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+    }
+    .slide-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--blush), #fce4e4);
+    }
+    .slide-placeholder .ph-icon { font-size: 3.5em; }
+    .slide-placeholder .ph-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--deep);
+      font-size: 1em;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .slide-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(90,45,53,.7));
+      color: #fff;
+      padding: 30px 20px 18px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1em;
+      border-radius: 0 0 24px 24px;
+      text-align: center;
+    }
+    .slide-ctrl {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(6px);
+      border: none;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      font-size: 1.1em;
+      cursor: pointer;
+      color: var(--deep);
+      box-shadow: 0 4px 14px rgba(0,0,0,.12);
+      transition: background .2s, transform .15s;
+      z-index: 5;
+    }
+    .slide-ctrl:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
+    .slide-ctrl.prev { left: -22px; }
+    .slide-ctrl.next { right: -22px; }
+    .slide-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 22px;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blush);
+      border: 1px solid var(--rose);
+      cursor: pointer;
+      transition: background .3s, transform .2s;
+    }
+    .dot.active { background: var(--deep); transform: scale(1.3); }
+    .thumb-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+    .thumb {
+      width: 70px; height: 70px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color .3s, transform .2s;
+      background: var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .thumb.active { border-color: var(--deep); transform: scale(1.07); }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+
+    /* ── MESSAGE SECTION ── */
+    .message-section {
+      position: relative;
+      z-index: 1;
+      padding: 90px 20px;
+      background: linear-gradient(180deg, #fdf0f0 0%, #fce4e4 100%);
+    }
+    .message-card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: rgba(255,255,255,.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--blush);
+      border-radius: 28px;
+      padding: 50px;
+      box-shadow: 0 12px 40px rgba(192,100,110,.1);
+    }
+    .message-card p {
+      font-size: 1.05em;
+      line-height: 2;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .message-card p:last-child { margin-bottom: 0; }
+    .open-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 4em;
+      line-height: .5;
+      color: var(--rose);
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--deep);
+      color: var(--blush);
+      text-align: center;
+      padding: 50px 20px;
+    }
+    footer .sign {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8em;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    footer p { font-size: .9em; line-height: 1.9; font-weight: 300; }
+    footer strong { color: #fff; }
+
+    @media (max-width: 600px) {
+      .slide-ctrl.prev { left: 6px; }
+      .slide-ctrl.next { right: 6px; }
+      .message-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<div class="petals" id="petals"></div>
+
+<!-- Music bar -->
+<div class="music-bar" id="musicBar">
+  <div class="track-info">
+    <div class="music-label">♪ Now Playing</div>
+    <div class="track-name" id="trackName">Loading…</div>
+    <div class="track-counter" id="trackCounter"></div>
+  </div>
+  <div class="eq" id="eq">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <button class="sm" id="prevMusicBtn" title="Lagu sebelumnya">⏮</button>
+  <button id="playBtn" title="Play / Pause">▶</button>
+  <button class="sm" id="nextMusicBtn" title="Lagu berikutnya">⏭</button>
+  <audio id="bgMusic"></audio>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">A love letter for you 🌸</div>
+  <h1>Happy <span>24th</span><br>Birthday</h1>
+  <div class="hero-sub">MY SEA ❤️</div>
+  <div class="heart-divider">
+    <hr> 🌸 <hr>
+  </div>
+  <div class="scroll-hint">↓ scroll ↓</div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="section-label">Our Memories</div>
+  <h2 class="section-title">Momen yang Ku Jaga 🌷</h2>
+
+  <div class="slideshow-wrap">
+    <div class="slideshow" id="slideshow"></div>
+    <button class="slide-ctrl prev" id="slidePrevBtn">‹</button>
+    <button class="slide-ctrl next" id="slideNextBtn">›</button>
+  </div>
+
+  <div class="slide-dots" id="dots"></div>
+  <div class="thumb-row" id="thumbRow"></div>
+</section>
+
+<!-- MESSAGE -->
+<section class="message-section">
+  <div class="section-label">From the heart</div>
+  <h2 class="section-title" style="margin-bottom:40px;">Kata-Kata dari Hatiku 🤍</h2>
+  <div class="message-card">
+    <span class="open-quote">"</span>
+    <p>Halo sayang, selamat ulang tahun. Happy 24 hihihiy. Harapannya sudah ada di video ya, sayangg. Aku cuma mau cerita dari isi hatiku dan berterima kasih ke kamu.</p>
+    <p>Semenjak hadirnya kamu di hidup aku, semuanya bawa perubahan yang baik banget. Aku sekarang nggak cuek lagi kalau chat mama, nggak kayak dulu. Aku juga jadi makin semangat dalam pelayanan, karena kamu bisa nge-boost aku banget.</p>
+    <p>Aku yang sekarang sudah bisa lebih tegas dan nggak selalu emosional kayak dulu, karena sekarang ada kamu yang bantu mengontrol aku. Dan dari kamu, aku dapetin rumah. Rumah untuk pulang, bersandar, beristirahat.</p>
+    <p>Kamu ngajarin aku buat memaafkan orang dan menyelesaikan masalah dengan kepala dingin. Hadirnya kamu selalu bawa solusi dan pengertian.</p>
+    <p>Setiap hari, rasa cinta aku ke kamu selalu bertambah. Nggak pernah berkurang, bahkan saat kita berantem sekalipun.</p>
+    <p>Terima kasih sudah hadir, menemani, dan bertahan sejauh ini. Semoga suatu hari nanti, kita bisa berdiri berdua di depan altar Tuhan. Amin 🤍</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="sign">Mika Aulia Setiawati Samosir</div>
+  <p>
+    Terimakasih sayangku yang paling cantik dan paling baik.<br>
+    Once again, happy birthday babyyy.<br>
+    Remember that I always love you more than words can say.<br><br>
+    <strong>— Edvard William 💕</strong>
+  </p>
+</footer>
+
+<script>
+  /* ============================================================
+     ✏️  EDIT DI SINI — sesuaikan nama file & caption/judul lagu
+     ============================================================
+     File yang ada di repo GitHub kamu sekarang:
+       foto1.jpeg ~ foto6.jpeg
+       Lagu1.mp3  ~ Lagu4.mp3
+
+     • src    = nama file persis seperti di GitHub (huruf besar/kecil harus sama)
+     • caption = teks yang muncul di bawah foto (boleh emoji atau kalimat)
+     • name   = nama lagu yang tampil di music bar
+
+     Untuk tambah foto/lagu baru:
+       1. Upload file ke repo GitHub
+       2. Tambah baris baru di array PHOTOS atau SONGS di bawah
+       3. Commit — selesai!
+  ============================================================ */
+
+  const PHOTOS = [
+    { src: 'assets/foto1.jpeg', caption: '💕' },
+    { src: 'assets/foto2.jpeg', caption: '🌸' },
+    { src: 'assets/foto3.jpeg', caption: '🌷' },
+    { src: 'assets/foto4.jpeg', caption: '💕' },
+    { src: 'assets/foto5.jpeg', caption: '🌸' },
+    { src: 'assets/foto6.jpeg', caption: '🌷' },
+    /* Tambah foto baru di sini:
+    { src: 'foto7.jpeg', caption: 'Kenangan indah 🌺' },
+    */
+  ];
+
+  const SONGS = [
+    { src: 'assets/Lagu1.mp3', name: 'Lagu 1' },
+    { src: 'assets/Lagu2.mp3', name: 'Lagu 2' },
+    { src: 'assets/Lagu3.mp3', name: 'Lagu 3' },
+    { src: 'assets/Lagu4.mp3', name: 'Lagu 4' },
+    /* Tambah lagu baru di sini:
+    { src: 'Lagu5.mp3', name: 'Nama Lagu 5' },
+    */
+  ];
+
+  /* ============================================================
+     KODE DI BAWAH TIDAK PERLU DIUBAH
+  ============================================================ */
+
+  /* ── PETALS ── */
+  (function() {
+    const wrap = document.getElementById('petals');
+    const symbols = ['🌸','🌺','💕','🌷','✨'];
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.fontSize = (.8 + Math.random() * .9) + 'em';
+      const dur = 6 + Math.random() * 10;
+      p.style.animationDuration = dur + 's';
+      p.style.animationDelay = (Math.random() * dur) + 's';
+      wrap.appendChild(p);
+    }
+  })();
+
+  /* ── MUSIC ── */
+  const audio        = document.getElementById('bgMusic');
+  const playBtn      = document.getElementById('playBtn');
+  const prevMusicBtn = document.getElementById('prevMusicBtn');
+  const nextMusicBtn = document.getElementById('nextMusicBtn');
+  const trackName    = document.getElementById('trackName');
+  const trackCounter = document.getElementById('trackCounter');
+  const eq           = document.getElementById('eq');
+  let curIdx = 0;
+
+  function setPlaying(v) {
+    playBtn.textContent = v ? '⏸' : '▶';
+    eq.classList.toggle('playing', v);
+  }
+
+  function loadTrack(idx, autoPlay) {
+    if (!SONGS.length) { trackName.textContent = 'Tidak ada lagu'; return; }
+    curIdx = (idx + SONGS.length) % SONGS.length;
+    audio.src = SONGS[curIdx].src;
+    trackName.textContent = SONGS[curIdx].name;
+    trackCounter.textContent = SONGS.length > 1 ? `${curIdx + 1} / ${SONGS.length}` : '';
+    if (autoPlay) audio.play().catch(() => {});
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (!SONGS.length) return;
+    audio.paused ? audio.play() : audio.pause();
+  });
+  prevMusicBtn.addEventListener('click', () => {
+    if (!SONGS.length) return;
+    audio.currentTime > 3 ? (audio.currentTime = 0) : loadTrack(curIdx - 1, !audio.paused);
+  });
+  nextMusicBtn.addEventListener('click', () => {
+    if (!SONGS.length) return;
+    loadTrack(curIdx + 1, !audio.paused);
+  });
+  audio.addEventListener('play',  () => setPlaying(true));
+  audio.addEventListener('pause', () => setPlaying(false));
+  audio.addEventListener('ended', () => loadTrack(curIdx + 1, true));
+
+  loadTrack(0, false);
+
+  /* ── SLIDESHOW ── */
+  let current = 0;
+  const slideshow = document.getElementById('slideshow');
+  const dotsWrap  = document.getElementById('dots');
+  const thumbRow  = document.getElementById('thumbRow');
+
+  function buildSlideshow() {
+    slideshow.innerHTML = '';
+    dotsWrap.innerHTML  = '';
+    thumbRow.innerHTML  = '';
+
+    if (!PHOTOS.length) {
+      slideshow.innerHTML = `
+        <div class="slide active">
+          <div class="slide-placeholder">
+            <div class="ph-icon">🌸</div>
+            <div class="ph-text">Tambahkan foto di array PHOTOS</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    PHOTOS.forEach((photo, i) => {
+      const s = document.createElement('div');
+      s.className = 'slide' + (i === current ? ' active' : '');
+      s.innerHTML = `<img src="${photo.src}" alt="${photo.caption || ''}">`;
+      if (photo.caption) {
+        const cap = document.createElement('div');
+        cap.className = 'slide-caption';
+        cap.textContent = photo.caption;
+        s.appendChild(cap);
+      }
+      slideshow.appendChild(s);
+
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === current ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+
+      const t = document.createElement('div');
+      t.className = 'thumb' + (i === current ? ' active' : '');
+      t.innerHTML = `<img src="${photo.src}" alt="">`;
+      t.addEventListener('click', () => goTo(i));
+      thumbRow.appendChild(t);
+    });
+  }
+
+  function goTo(n) {
+    const allSlides = slideshow.querySelectorAll('.slide');
+    const allDots   = dotsWrap.querySelectorAll('.dot');
+    const allThumbs = thumbRow.querySelectorAll('.thumb');
+    if (allSlides[current]) allSlides[current].classList.remove('active');
+    if (allDots[current])   allDots[current].classList.remove('active');
+    if (allThumbs[current]) allThumbs[current].classList.remove('active');
+    current = (n + PHOTOS.length) % PHOTOS.length;
+    if (allSlides[current]) allSlides[current].classList.add('active');
+    if (allDots[current])   allDots[current].classList.add('active');
+    if (allThumbs[current]) allThumbs[current].classList.add('active');
+    if (allThumbs[current]) allThumbs[current].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+  }
+
+  document.getElementById('slidePrevBtn').addEventListener('click', () => { if (PHOTOS.length > 0) goTo(current - 1); });
+  document.getElementById('slideNextBtn').addEventListener('click', () => { if (PHOTOS.length > 0) goTo(current + 1); });
+
+  setInterval(() => { if (PHOTOS.length > 1) goTo(current + 1); }, 4000);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  let touchX = null;
+  slideshow.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  slideshow.addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
+
+  buildSlideshow();
+</script>
+</body>
+</html>
